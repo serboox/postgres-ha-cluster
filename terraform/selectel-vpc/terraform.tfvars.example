@@ -1,0 +1,45 @@
+# Selectel credentials
+sel_account = 1337
+
+sel_token = "you_own_token"
+
+# OpenStack auth
+os_project_name = "your_project_name"
+
+os_user_name = "sergey"
+
+os_user_password = "1234"
+
+os_auth_url = "https://api.selvpc.ru/identity/v3"
+
+os_region = "ru-3"
+
+os_zone = "ru-3a"
+
+instance_count = 1
+
+server_zone = "ru-3a"
+
+server_name = "Node"
+
+server_vcpus = 1
+
+server_ram_mb = 1024
+
+server_root_disk_gb = 10
+
+server_image_name = "Ubuntu 18.04 LTS 64-bit"
+
+# Openstack project vars
+custom_url = "xxxx.selvpc.ru"
+
+theme_color = "2753E9"
+
+quota_compute_cores = 12
+
+quota_compute_ram = 8192
+
+quota_volume_gigabytes_fast = 40
+
+public_key_path = "~/.ssh/appuser.pub"
+
