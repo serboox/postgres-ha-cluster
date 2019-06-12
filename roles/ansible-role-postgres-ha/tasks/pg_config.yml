@@ -1,0 +1,48 @@
+---
+- name: Add environment file
+  template:
+    src: environment.j2
+    dest: "/etc/postgresql/{{ pg_version }}/main/environment"
+    owner: "{{ pg_user }}"
+    group: "{{ pg_user }}"
+  notify: reload postgresql
+
+- name: Add pg_ctl.conf file
+  template:
+    src: pg_ctl.conf.j2
+    dest: "/etc/postgresql/{{ pg_version }}/main/pg_ctl.conf"
+    owner: "{{ pg_user }}"
+    group: "{{ pg_user }}"
+  notify: reload postgresql
+
+- name: Add pg_hba.conf file
+  template:
+    src: pg_hba.conf.j2
+    dest: "/etc/postgresql/{{ pg_version }}/main/pg_hba.conf"
+    owner: "{{ pg_user }}"
+    group: "{{ pg_user }}"
+  notify: reload postgresql
+
+- name: Add pg_ident.conf file
+  template:
+    src: pg_ident.conf.j2
+    dest: "/etc/postgresql/{{ pg_version }}/main/pg_ident.conf"
+    owner: "{{ pg_user }}"
+    group: "{{ pg_user }}"
+  notify: reload postgresql
+
+- name: Add postgresql.conf file
+  template:
+    src: postgresql.conf.j2
+    dest: "/etc/postgresql/{{ pg_version }}/main/postgresql.conf"
+    owner: "{{ pg_user }}"
+    group: "{{ pg_user }}"
+  notify: reload postgresql
+
+- name: Add start.conf file
+  template:
+    src: start.conf.j2
+    dest: "/etc/postgresql/{{ pg_version }}/main/start.conf"
+    owner: "{{ pg_user }}"
+    group: "{{ pg_user }}"
+  notify: reload postgresql

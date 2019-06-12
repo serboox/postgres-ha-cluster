@@ -1,0 +1,46 @@
+---
+- name: Add an Apt signing key, uses whichever key is at the URL
+  apt_key:
+    url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+    state: present
+
+- name: Add PostgreSQL apt repository
+  apt_repository:
+    repo: deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main
+    state: present
+    filename: pgdg
+
+- name: Ensure bash, OpenSSl, and libssl are the latest versions
+  apt:
+    name: "{{ packages }}"
+    state: present
+    update_cache: yes
+  vars:
+    packages:
+    - bash
+    - sysstat
+    - openssl
+    - aptitude
+    - libssl-dev
+    - libpq-dev
+    - libpq5
+    - pgdg-keyring
+    - python3-psycopg2
+
+- name: Install PostgreSQL {{ pg_version }}
+  apt:
+    name: "{{ packages }}"
+    state: present
+    update_cache: yes
+    install_recommends: no
+  vars:
+    packages:
+      - postgresql-{{ pg_version }}
+      - postgresql-client-{{ pg_version }}
+
+- name: Configure service supervisor
+  systemd:
+    name: postgresql
+    enabled: yes
+    state: started
+  tags: install

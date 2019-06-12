@@ -1,0 +1,9 @@
+---
+- name: Configure PostgreSQL Cluster
+  hosts: all
+  become: true
+  gather_facts: True
+  vars_files:
+    - "{{ inventory_dir }}/credentials.yml"
+  roles:
+    - ansible-role-postgres-ha

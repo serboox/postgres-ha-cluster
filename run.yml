@@ -1,0 +1,4 @@
+---
+- import_playbook: ./playbooks/install_python.yml
+- import_playbook: ./playbooks/users.yml
+- import_playbook: ./playbooks/postgres-cluster.yml

@@ -1,0 +1,9 @@
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3
+
+[pg-master]
+node-1 ansible_host=185.10.185.74
+
+[pg-slave]
+node-2 ansible_host=185.10.185.75
+node-3 ansible_host=185.10.185.76
