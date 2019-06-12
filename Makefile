@@ -23,3 +23,6 @@ decrypt:
 
 edit:
 	ansible-vault edit environments/stage/credentials.yml
+
+show-local-ip:
+	ansible -m shell -a "ip a | grep inet | grep eth0 | awk '{print \$$2}'" all

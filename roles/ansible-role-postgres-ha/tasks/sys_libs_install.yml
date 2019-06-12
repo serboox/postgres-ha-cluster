@@ -1,0 +1,17 @@
+---
+- name: Ensure bash, OpenSSl, and libssl are the latest versions
+  apt:
+    name: "{{ packages }}"
+    state: present
+    update_cache: yes
+  vars:
+    packages:
+    - bash
+    - sysstat
+    - openssl
+    - aptitude
+    - libssl-dev
+    - libpq-dev
+    - libpq5
+    - pgdg-keyring
+    - python3-psycopg2

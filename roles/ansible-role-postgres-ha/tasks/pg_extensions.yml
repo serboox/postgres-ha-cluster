@@ -1,0 +1,19 @@
+---
+- name: Install PostgreSQL {{ pg_version }} Modules
+  apt:
+    name: "{{ packages }}"
+    state: present
+    update_cache: no
+    install_recommends: yes
+  vars:
+    packages:
+      - postgresql-contrib-{{ pg_version }}
+  notify: restart postgresql
+
+- name: Adds 'pg_stat_statements' extension to all databases
+  become_user: "{{ pg_user }}"
+  postgresql_ext:
+    name: pg_stat_statements
+    db: "{{ item.key }}"
+    cascade: true
+  with_dict: "{{ credentials.users }}"

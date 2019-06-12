@@ -21,7 +21,7 @@
     dest: "/etc/postgresql/{{ pg_version }}/main/pg_hba.conf"
     owner: "{{ pg_user }}"
     group: "{{ pg_user }}"
-  notify: reload postgresql
+  notify: restart postgresql
 
 - name: Add pg_ident.conf file
   template:
@@ -37,7 +37,7 @@
     dest: "/etc/postgresql/{{ pg_version }}/main/postgresql.conf"
     owner: "{{ pg_user }}"
     group: "{{ pg_user }}"
-  notify: reload postgresql
+  notify: restart postgresql
 
 - name: Add start.conf file
   template:

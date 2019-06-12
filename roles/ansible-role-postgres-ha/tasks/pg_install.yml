@@ -10,28 +10,11 @@
     state: present
     filename: pgdg
 
-- name: Ensure bash, OpenSSl, and libssl are the latest versions
-  apt:
-    name: "{{ packages }}"
-    state: present
-    update_cache: yes
-  vars:
-    packages:
-    - bash
-    - sysstat
-    - openssl
-    - aptitude
-    - libssl-dev
-    - libpq-dev
-    - libpq5
-    - pgdg-keyring
-    - python3-psycopg2
-
 - name: Install PostgreSQL {{ pg_version }}
   apt:
     name: "{{ packages }}"
     state: present
-    update_cache: yes
+    update_cache: no
     install_recommends: no
   vars:
     packages:
