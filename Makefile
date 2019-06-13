@@ -50,27 +50,3 @@ tf-validate:
 ansible-up: ansible-update-ip-in-stage
 	@echo "+ $@"
 	cd ./ansible && make run
-
-ansible-update-ip-in-stage:
-	@echo "+ $@"
-	cd ./terraform/stage && \
-	terraform output | grep app_external_ip | awk '{print $$3}' | \
-	xargs -I {} echo 'appserver ansible_host={}' | \
-	xargs -I {} sed -i 's/appserver ansible_host=.*/{}/g' \
-	./../../ansible/environments/stage/inventory
-
-	cd ./terraform/stage && \
-	terraform output | grep app_internal_ip | awk '{print $$3}' | \
-	xargs -I {} echo 'App internal IP {} not be used'
-
-	cd ./terraform/stage && \
-	terraform output | grep db_external_ip | awk '{print $$3}' | \
-	xargs -I {} echo 'dbserver ansible_host={}' | \
-	xargs -I {} sed -i 's/dbserver ansible_host=.*/{}/g' \
-	./../../ansible/environments/stage/inventory
-
-	cd ./terraform/stage && \
-	terraform output | grep db_internal_ip | awk '{print $$3}' | \
-	xargs -I {} echo 'db_host: {}' | \
-	xargs -I {} sed -i 's/db_host: .*/{}/g' \
-	./../../ansible/environments/stage/group_vars/app

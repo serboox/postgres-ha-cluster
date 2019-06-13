@@ -1,37 +1,37 @@
 # Selectel credentials
-variable sel_account {
-  description = "You selectel account number"
+variable OS_AUTH_URL {
+  default = "https://api.selvpc.ru/identity/v3"
+  type    = "string"
 }
 
-variable sel_token {
+variable OS_X_TOKEN {
   description = "Selectel X-Token"
   type        = "string"
 }
 
 # OpenStack identity vars
-variable os_project_name {
-  type = "string"
-}
-
-variable os_user_name {
-  type = "string"
-}
-
-variable os_user_password {
-  type = "string"
-}
-
-variable "os_auth_url" {
+variable OS_PROJECT_NAME {
   type    = "string"
-  default = "https://api.selvpc.ru/identity/v3"
 }
 
-variable os_region {
-  type = "string"
+variable OS_USER_DOMAIN_NAME {
+  description = "You selectel account number"
 }
 
-variable os_zone {
-  type = "string"
+variable OS_USERNAME {
+  type    = "string"
+}
+
+variable OS_PASSWORD {
+  type    = "string"
+}
+
+variable OS_REGION {
+  type    = "string"
+}
+
+variable OS_AVAILABILITY_ZONE {
+  type    = "string"
 }
 
 # OpenStack instances vars

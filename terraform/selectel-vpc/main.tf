@@ -4,7 +4,7 @@ terraform {
 }
 
 provider "selectel" {
-  token = "${var.sel_token}"
+  token = "${var.OS_X_TOKEN}"
 }
 
 # Create the main project with user.
@@ -13,21 +13,21 @@ provider "selectel" {
 module "project_with_user" {
   source = "../modules/selectel-vpc/project_with_user"
 
-  project_name  = "${var.os_project_name}"
-  user_name     = "${var.os_user_name}"
-  user_password = "${var.os_user_password}"
+  project_name  = "${var.OS_PROJECT_NAME}"
+  user_name     = "${var.OS_USERNAME}"
+  user_password = "${var.OS_PASSWORD}"
 }
 
 module "pg-cluster" {
   source = "../modules/selectel-vpc/pg_cluster"
 
   # OpenStack auth.
-  os_project_name  = "${var.os_project_name}"
-  os_user_name     = "${var.os_user_name}"
-  os_user_password = "${var.os_user_password}"
-  os_domain_name   = "${var.sel_account}"
-  os_auth_url      = "${var.os_auth_url}"
-  os_region        = "${var.os_region}"
+  os_project_name  = "${var.OS_PROJECT_NAME}"
+  os_user_name     = "${var.OS_USERNAME}"
+  os_user_password = "${var.OS_PASSWORD}"
+  os_domain_name   = "${var.OS_USER_DOMAIN_NAME}"
+  os_auth_url      = "${var.OS_AUTH_URL}"
+  os_region        = "${var.OS_REGION}"
 
   # OpenStack Instance parameters.
   srv_instance_prefix_name    = "${var.srv_instance_prefix_name}"
