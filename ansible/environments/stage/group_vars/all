@@ -1,3 +1,0 @@
-env: stage
-pg_version: 10
-pg_user: postgres

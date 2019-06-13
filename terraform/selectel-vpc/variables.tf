@@ -35,41 +35,49 @@ variable os_zone {
 }
 
 # OpenStack instances vars
-variable master_server_name {
+variable srv_instance_prefix_name {
   type    = "string"
-  default = "Master"
+  default = "srv"
 }
 
-variable slave_server_name {
-  type    = "string"
-  default = "Slave"
+variable master_instance_count {
+  default = 1
 }
 
-variable srv_server_name {
+variable master_instance_prefix_name {
   type    = "string"
-  default = "Srv"
+  default = "master"
 }
 
-variable server_zone {
+variable slave_instance_count {
+  default = 2
+}
+
+variable slave_instance_prefix_name {
+  type    = "string"
+  default = "slave"
+}
+
+variable instance_zone {
   type = "string"
 }
 
-variable server_vcpus {
+variable instance_vcpus {
   description = "CPU"
   default     = 1
 }
 
-variable server_ram_mb {
+variable instance_ram_mb {
   description = "DRAM"
   default     = 1024
 }
 
-variable server_root_disk_gb {
+variable instance_root_disk_gb {
   description = "Storage size"
   default     = 10
 }
 
-variable server_image_name {
+variable instance_image_name {
   description = "OpenStack image name"
   type        = "string"
   default     = "Ubuntu 18.04 LTS 64-bit"

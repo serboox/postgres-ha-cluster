@@ -18,8 +18,8 @@ module "project_with_user" {
   user_password = "${var.os_user_password}"
 }
 
-module "server-master-1" {
-  source = "../modules/selectel-vpc/server_remote_root_disk"
+module "pg-cluster" {
+  source = "../modules/selectel-vpc/pg_cluster"
 
   # OpenStack auth.
   os_project_name  = "${var.os_project_name}"
@@ -30,78 +30,17 @@ module "server-master-1" {
   os_region        = "${var.os_region}"
 
   # OpenStack Instance parameters.
-  server_name         = "${format("%s-%d", var.master_server_name, 1)}"
-  server_zone         = "${var.server_zone}"
-  server_vcpus        = "${var.server_vcpus}"
-  server_ram_mb       = "${var.server_ram_mb}"
-  server_root_disk_gb = "${var.server_root_disk_gb}"
-  server_image_name   = "${var.server_image_name}"
-  server_ssh_key      = "${file(var.public_key_path)}"
-  server_ssh_key_user = "${module.project_with_user.user_id}"
-}
+  srv_instance_prefix_name    = "${var.srv_instance_prefix_name}"
+  master_instance_count       = "${var.master_instance_count}"
+  master_instance_prefix_name = "${var.master_instance_prefix_name}"
+  slave_instance_count        = "${var.slave_instance_count}"
+  slave_instance_prefix_name  = "${var.slave_instance_prefix_name}"
 
-module "server-slave-1" {
-  source = "../modules/selectel-vpc/server_remote_root_disk"
-
-  # OpenStack auth.
-  os_project_name  = "${var.os_project_name}"
-  os_user_name     = "${var.os_user_name}"
-  os_user_password = "${var.os_user_password}"
-  os_domain_name   = "${var.sel_account}"
-  os_auth_url      = "${var.os_auth_url}"
-  os_region        = "${var.os_region}"
-
-  # OpenStack Instance parameters.
-  server_name         = "${format("%s-%d", var.slave_server_name, 1)}"
-  server_zone         = "${var.server_zone}"
-  server_vcpus        = "${var.server_vcpus}"
-  server_ram_mb       = "${var.server_ram_mb}"
-  server_root_disk_gb = "${var.server_root_disk_gb}"
-  server_image_name   = "${var.server_image_name}"
-  server_ssh_key      = "${file(var.public_key_path)}"
-  server_ssh_key_user = "${module.project_with_user.user_id}"
-}
-
-module "server-slave-2" {
-  source = "../modules/selectel-vpc/server_remote_root_disk"
-
-  # OpenStack auth.
-  os_project_name  = "${var.os_project_name}"
-  os_user_name     = "${var.os_user_name}"
-  os_user_password = "${var.os_user_password}"
-  os_domain_name   = "${var.sel_account}"
-  os_auth_url      = "${var.os_auth_url}"
-  os_region        = "${var.os_region}"
-
-  # OpenStack Instance parameters.
-  server_name         = "${format("%s-%d", var.slave_server_name, 2)}"
-  server_zone         = "${var.server_zone}"
-  server_vcpus        = "${var.server_vcpus}"
-  server_ram_mb       = "${var.server_ram_mb}"
-  server_root_disk_gb = "${var.server_root_disk_gb}"
-  server_image_name   = "${var.server_image_name}"
-  server_ssh_key      = "${file(var.public_key_path)}"
-  server_ssh_key_user = "${module.project_with_user.user_id}"
-}
-
-module "server-srv-1" {
-  source = "../modules/selectel-vpc/server_remote_root_disk"
-
-  # OpenStack auth.
-  os_project_name  = "${var.os_project_name}"
-  os_user_name     = "${var.os_user_name}"
-  os_user_password = "${var.os_user_password}"
-  os_domain_name   = "${var.sel_account}"
-  os_auth_url      = "${var.os_auth_url}"
-  os_region        = "${var.os_region}"
-
-  # OpenStack Instance parameters.
-  server_name         = "${format("%s-%d", var.srv_server_name, 1)}"
-  server_zone         = "${var.server_zone}"
-  server_vcpus        = "${var.server_vcpus}"
-  server_ram_mb       = "${var.server_ram_mb}"
-  server_root_disk_gb = "${var.server_root_disk_gb}"
-  server_image_name   = "${var.server_image_name}"
+  server_zone         = "${var.instance_zone}"
+  server_vcpus        = "${var.instance_vcpus}"
+  server_ram_mb       = "${var.instance_ram_mb}"
+  server_root_disk_gb = "${var.instance_root_disk_gb}"
+  server_image_name   = "${var.instance_image_name}"
   server_ssh_key      = "${file(var.public_key_path)}"
   server_ssh_key_user = "${module.project_with_user.user_id}"
 }

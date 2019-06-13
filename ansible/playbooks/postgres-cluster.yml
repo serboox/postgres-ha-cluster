@@ -1,6 +1,6 @@
 ---
 - name: Configure PostgreSQL Cluster
-  hosts: all
+  hosts: postgres-cluster
   become: true
   gather_facts: True
   vars_files:

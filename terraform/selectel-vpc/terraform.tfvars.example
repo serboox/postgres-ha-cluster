@@ -19,21 +19,25 @@ os_zone = "ru-3a"
 server_zone = "ru-3a"
 
 # OpenStack instances vars
-master_server_name = "Master"
+srv_instance_prefix_name = "srv"
 
-slave_server_name = "Slave"
+master_instance_count = 1
 
-srv_server_name = "Srv"
+master_instance_prefix_name = "master"
 
-server_zone = "ru-3a"
+slave_instance_count = 2
 
-server_vcpus = 1
+slave_instance_prefix_name = "slave"
 
-server_ram_mb = 1024
+instance_zone = "ru-3a"
 
-server_root_disk_gb = 10
+instance_vcpus = 1
 
-server_image_name = "Ubuntu 18.04 LTS 64-bit"
+instance_ram_mb = 1024
+
+instance_root_disk_gb = 10
+
+instance_image_name = "Ubuntu 18.04 LTS 64-bit"
 
 public_key_path = "~/.ssh/appuser.pub"
 

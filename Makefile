@@ -9,16 +9,21 @@ tf-init:
 	cd ./terraform/selectel-vpc &&\
 	terraform init
 
+tf-plan:
+	@echo "+ $@"
+	cd ./terraform/selectel-vpc &&\
+	terraform plan
+
 tf-apply: tf-fmt tf-validate
 	@echo "+ $@"
 	cd ./terraform/selectel-vpc &&\
 	terraform apply -target=module.project_with_user --auto-approve=true
 	cd ./terraform/selectel-vpc &&\
-	terraform apply --auto-approve=true --parallelism=1
+	terraform apply --auto-approve=true
 
 tf-destroy:
 	@echo "+ $@"
-	for name in server-master-1 server-slave-1 server-slave-2 server-srv-1; do \
+	for name in pg-cluster; do \
 		cd ./terraform/selectel-vpc; \
 		terraform destroy -target=module.$$name --auto-approve=true; \
 		cd -; \

@@ -1,12 +1,28 @@
 [all:vars]
 ansible_python_interpreter=/usr/bin/python3
+env=stage
+pg_version=10
+pg_user=postgres
+
+[srv]
+srv1 ansible_host=185.91.52.35
 
 [pg-master]
-master1 ansible_host=185.10.185.74
+master1 ansible_host=192.168.0.9
+
+[pg-master:vars]
+role=master
 
 [pg-slave]
-slave1 ansible_host=185.10.185.75
-slave2 ansible_host=185.10.185.76
+slave1 ansible_host=192.168.0.6
+slave2 ansible_host=192.168.0.13
 
-[pg-srv]
-srv1 ansible_host=185.10.185.75
+[pg-slave:vars]
+role=slave
+
+[postgres-cluster:children]
+pg-master
+pg-slave
+
+[postgres-cluster:vars]
+ansible_ssh_common_args='-o ProxyCommand="ssh -A -W %h:%p -q root@185.91.52.35"'
