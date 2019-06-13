@@ -3,6 +3,7 @@ os-credentials.sh
 
 # IDE
 .vscode*
+XDG_CACHE_HOME
 
 # Terraform ignore
 *.tfstate
@@ -11,3 +12,8 @@ os-credentials.sh
 *.tfvars
 .terraform/
 .terraform.*.lock.info
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class

@@ -1,0 +1,73 @@
+{
+    "_meta": {
+        "hostvars": {
+            "master1": {
+                "ansible_host": "192.168.0.9"
+            },
+            "slave1": {
+                "ansible_host": "192.168.0.6"
+            },
+            "slave2": {
+                "ansible_host": "192.168.0.13"
+            },
+            "srv1": {
+                "ansible_host": "185.91.52.35"
+            }
+        }
+    },
+    "all": {
+        "children": [
+            "ungrouped",
+            "srv",
+            "postgres-cluster"
+        ],
+        "hosts": [],
+        "vars": {
+            "ansible_python_interpreter": "/usr/bin/python3",
+            "env": "stage",
+            "pg_user": "postgres",
+            "pg_version": 10
+        }
+    },
+    "srv": {
+        "children": [],
+        "hosts": [
+            "srv1"
+        ],
+        "vars": {}
+    },
+    "pg-master": {
+        "children": [],
+        "hosts": [
+            "master1"
+        ],
+        "vars": {
+            "role": "master"
+        }
+    },
+    "pg-slave": {
+        "children": [],
+        "hosts": [
+            "slave1",
+            "slave2"
+        ],
+        "vars": {
+            "role": "slave"
+        }
+    },
+    "postgres-cluster": {
+        "children": [
+            "pg-master",
+            "pg-slave"
+        ],
+        "hosts": [],
+        "vars": {
+            "ansible_ssh_common_args": "-o ProxyCommand=\"ssh -A -W %h:%p -q root@185.91.52.35\""
+        }
+    },
+    "ungrouped": {
+        "children": [],
+        "hosts": [],
+        "vars": {}
+    }
+}
