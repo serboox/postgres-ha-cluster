@@ -4,15 +4,27 @@ run: tf-apply ansible-up
 destroy: tf-destroy
 
 # Terraform commands
-tf-apply: tf-img-update tf-fmt tf-validate
+tf-init:
 	@echo "+ $@"
 	cd ./terraform/selectel-vpc &&\
-	terraform apply --auto-approve=true
+	terraform init
+
+tf-apply: tf-fmt tf-validate
+	@echo "+ $@"
+	cd ./terraform/selectel-vpc &&\
+	terraform apply -target=module.project_with_user --auto-approve=true
+	cd ./terraform/selectel-vpc &&\
+	terraform apply --auto-approve=true --parallelism=1
 
 tf-destroy:
 	@echo "+ $@"
+	for name in server-master-1 server-slave-1 server-slave-2 server-srv-1; do \
+		cd ./terraform/selectel-vpc; \
+		terraform destroy -target=module.$$name --auto-approve=true; \
+		cd -; \
+	done
 	cd ./terraform/selectel-vpc &&\
-	terraform destroy --auto-approve=true
+	terraform destroy -target=module.project_with_user --auto-approve=true
 
 tf-output:
 	@echo "+ $@"
@@ -27,7 +39,7 @@ tf-fmt:
 tf-validate:
 	@echo "+ $@"
 	cd ./terraform/selectel-vpc && \
-	terraform validate ./..
+	terraform validate .
 
 # Ansible commands
 ansible-up: ansible-update-ip-in-stage

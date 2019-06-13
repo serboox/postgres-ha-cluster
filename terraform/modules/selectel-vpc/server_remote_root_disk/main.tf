@@ -15,7 +15,7 @@ resource "random_string" "random_name" {
 
 module "flavor" {
   source        = "../flavor"
-  flavor_name   = "flavor-${random_string.random_name.result}"
+  flavor_name   = "pg-flavor-${random_string.random_name.result}"
   flavor_vcpus  = "${var.server_vcpus}"
   flavor_ram_mb = "${var.server_ram_mb}"
 }
