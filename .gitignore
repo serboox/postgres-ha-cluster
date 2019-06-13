@@ -1,6 +1,9 @@
 # Environments
 os-credentials.sh
 
+# IDE
+.vscode*
+
 # Terraform ignore
 *.tfstate
 *.tfstate.*.backup
