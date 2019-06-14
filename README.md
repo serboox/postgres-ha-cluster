@@ -18,8 +18,8 @@ export OS_PROJECT_NAME=<YourProjectName> - имя создаваемого пр�
 export OS_USER_DOMAIN_NAME=<YourUserDomainName> - ваш логин в my.selectel
 export OS_USERNAME=<YourUserName> - имя пользователя который будет создан в проекте
 export OS_PASSWORD=<YourPassword> - пароль этого пользователя
-export OS_REGION =<YourRegion> - регион в котором будут созданы инстансы
-export OS_AVAILABILITY_ZONE =<YourAvailabilityZone> - зона для инстансов
+export OS_REGION=<YourRegion> - регион в котором будут созданы инстансы
+export OS_AVAILABILITY_ZONE=<YourAvailabilityZone> - зона для инстансов
 
 export RESELL_API_URL='https://api.selectel.ru/vpc/resell/v2'
 

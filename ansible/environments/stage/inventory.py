@@ -167,6 +167,9 @@ class ExampleInventory(object):
                     'ansible_host': self._current_floatingip['floating_ip_address'],
                 }
                 self.res['srv']['hosts'].append(server.name)
+                self.res['postgres-cluster']['vars']['ansible_ssh_common_args'] = \
+                    "-o ProxyCommand=\"ssh -A -W %h:%p -q root@{}\"".\
+                    format(self._current_floatingip['floating_ip_address'])
 
             res = re.findall(r'master', server.name)
             if len(res) != 0:
