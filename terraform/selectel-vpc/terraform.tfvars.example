@@ -1,12 +1,16 @@
 # OpenStack instances vars
+
+# The name must contain a substring 'slave'
 srv_instance_prefix_name = "srv"
 
 master_instance_count = 1
 
+# The name must contain a substring 'master'
 master_instance_prefix_name = "master"
 
 slave_instance_count = 2
 
+# The name must contain a substring 'slave'
 slave_instance_prefix_name = "slave"
 
 instance_zone = "ru-3a"
