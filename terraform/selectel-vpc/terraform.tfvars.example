@@ -13,8 +13,6 @@ slave_instance_count = 2
 # The name must contain a substring 'slave'
 slave_instance_prefix_name = "slave"
 
-instance_zone = "ru-3a"
-
 instance_vcpus = 1
 
 instance_ram_mb = 1024
@@ -23,4 +21,4 @@ instance_root_disk_gb = 10
 
 instance_image_name = "Ubuntu 18.04 LTS 64-bit"
 
-public_key_path = "~/.ssh/appuser.pub"
+public_key_path = "~/.ssh/id_rsa.pub"

@@ -36,7 +36,7 @@ module "pg-cluster" {
   slave_instance_count        = "${var.slave_instance_count}"
   slave_instance_prefix_name  = "${var.slave_instance_prefix_name}"
 
-  server_zone         = "${var.instance_zone}"
+  server_zone         = "${var.OS_AVAILABILITY_ZONE}"
   server_vcpus        = "${var.instance_vcpus}"
   server_ram_mb       = "${var.instance_ram_mb}"
   server_root_disk_gb = "${var.instance_root_disk_gb}"

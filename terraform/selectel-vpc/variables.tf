@@ -58,10 +58,6 @@ variable slave_instance_prefix_name {
   default = "slave"
 }
 
-variable instance_zone {
-  type = "string"
-}
-
 variable instance_vcpus {
   description = "CPU"
   default     = 1
