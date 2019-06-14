@@ -1,4 +1,10 @@
 ---
+- name: Add Security Ubuntu repository
+  apt_repository:
+    repo: deb http://security.ubuntu.com/ubuntu xenial-security main
+    state: present
+    filename: pgdg
+
 - name: Ensure bash, OpenSSl, and libssl are the latest versions
   apt:
     name: "{{ packages }}"
@@ -13,5 +19,5 @@
     - libssl-dev
     - libpq-dev
     - libpq5
-    - pgdg-keyring
     - python3-psycopg2
+    - libicu55

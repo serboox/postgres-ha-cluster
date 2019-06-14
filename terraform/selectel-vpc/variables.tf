@@ -11,7 +11,7 @@ variable OS_X_TOKEN {
 
 # OpenStack identity vars
 variable OS_PROJECT_NAME {
-  type    = "string"
+  type = "string"
 }
 
 variable OS_USER_DOMAIN_NAME {
@@ -19,19 +19,19 @@ variable OS_USER_DOMAIN_NAME {
 }
 
 variable OS_USERNAME {
-  type    = "string"
+  type = "string"
 }
 
 variable OS_PASSWORD {
-  type    = "string"
+  type = "string"
 }
 
 variable OS_REGION {
-  type    = "string"
+  type = "string"
 }
 
 variable OS_AVAILABILITY_ZONE {
-  type    = "string"
+  type = "string"
 }
 
 # OpenStack instances vars

@@ -4,7 +4,7 @@ run: lint
 	@echo "+"
 	ansible-playbook ./run.yml
 
-check:
+check: lint
 	@echo "+"
 	ansible-playbook ./run.yml --check
 

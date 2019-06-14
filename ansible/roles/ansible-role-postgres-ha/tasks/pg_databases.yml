@@ -1,11 +1,13 @@
 ---
 - name: Create new databases
+  become: true
   become_user: "{{ pg_user }}"
   postgresql_db:
     name: "{{ item.key }}"
   with_dict: "{{ credentials.users }}"
 
 - name: Connect database, create users, and grant access to own database
+  become: true
   become_user: "{{ pg_user }}"
   postgresql_user:
     name: "{{ item.key }}"
@@ -15,6 +17,7 @@
 
 # https://docs.ansible.com/ansible/latest/modules/postgresql_privs_module.html?highlight=postgres
 - name: Grant all privileges
+  become: true
   become_user: "{{ pg_user }}"
   postgresql_privs:
     db: "{{ item.key }}"

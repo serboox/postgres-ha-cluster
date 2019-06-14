@@ -47,6 +47,6 @@ tf-validate:
 	terraform validate .
 
 # Ansible commands
-ansible-up: ansible-update-ip-in-stage
+ansible-up:
 	@echo "+ $@"
 	cd ./ansible && make run

@@ -14,10 +14,11 @@
   apt:
     name: "{{ packages }}"
     state: present
-    update_cache: no
-    install_recommends: no
+    update_cache: yes
+    install_recommends: yes
   vars:
     packages:
+      - pgdg-keyring
       - postgresql-{{ pg_version }}
       - postgresql-client-{{ pg_version }}
 

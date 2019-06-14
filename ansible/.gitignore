@@ -1,3 +1,4 @@
 *.retry
 jdauphant.nginx
 vault.key
+credentials.yml
