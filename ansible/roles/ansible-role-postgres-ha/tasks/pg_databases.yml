@@ -5,6 +5,7 @@
   postgresql_db:
     name: "{{ item.key }}"
   with_dict: "{{ credentials.users }}"
+  tags: pg-databases
 
 - name: Connect database, create users, and grant access to own database
   become: true
@@ -14,6 +15,7 @@
     password: "{{ item.value.password }}"
     expires: infinity
   with_dict: "{{ credentials.users }}"
+  tags: pg-databases
 
 # https://docs.ansible.com/ansible/latest/modules/postgresql_privs_module.html?highlight=postgres
 - name: Grant all privileges
@@ -25,3 +27,4 @@
     type: database
     role: "{{ item.key }}"
   with_dict: "{{ credentials.users }}"
+  tags: pg-databases

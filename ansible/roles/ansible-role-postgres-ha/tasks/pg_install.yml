@@ -3,12 +3,14 @@
   apt_key:
     url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
     state: present
+  tags: pg-install
 
 - name: Add PostgreSQL apt repository
   apt_repository:
     repo: deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main
     state: present
     filename: pgdg
+  tags: pg-install
 
 - name: Install PostgreSQL {{ pg_version }}
   apt:
@@ -21,10 +23,11 @@
       - pgdg-keyring
       - postgresql-{{ pg_version }}
       - postgresql-client-{{ pg_version }}
+  tags: pg-install
 
 - name: Configure service supervisor
   systemd:
     name: postgresql
     enabled: yes
     state: started
-  tag: install
+  tags: pg-install

@@ -9,6 +9,7 @@
     packages:
       - postgresql-contrib-{{ pg_version }}
   notify: restart postgresql
+  tags: pg-extensions
 
 - name: Adds 'pg_stat_statements' extension to all databases
   become: true
@@ -18,3 +19,4 @@
     db: "{{ item.key }}"
     cascade: true
   with_dict: "{{ credentials.users }}"
+  tags: pg-extensions

@@ -4,10 +4,10 @@
   debug:
     msg: "This host is in {{ env }} environment!!!"
 
-#- include: sys_libs_install.yml
-#- include: pg_install.yml
+- include: sys_libs_install.yml
+- include: pg_install.yml
 - include: pg_config.yml
-#- include: pg_databases.yml
-#- include: pg_extensions.yml
-#- include: pgbouncer_install.yml
+- include: pg_databases.yml
+- include: pg_extensions.yml
+- include: pgbouncer_install.yml
 - include: pgbouncer_config.yml
