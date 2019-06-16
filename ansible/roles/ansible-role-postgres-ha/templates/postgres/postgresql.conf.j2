@@ -175,8 +175,9 @@ shared_preload_libraries = 'pg_stat_statements'		# (change requires restart)
 #------------------------------------------------------------------------------
 
 # - Settings -
-
-#wal_level = replica			# minimal, replica, or logical
+{% if role == 'master' %}
+wal_level = replica			# minimal, replica, or logical
+{% endif %}
 					# (change requires restart)
 #fsync = on				# flush data to disk for crash safety
 					# (turning this off can cause
@@ -230,10 +231,11 @@ shared_preload_libraries = 'pg_stat_statements'		# (change requires restart)
 # - Sending Server(s) -
 
 # Set these on the master and on any standby that will send replication data.
-
-#max_wal_senders = 10		# max number of walsender processes
+{% if role == 'master' %}
+max_wal_senders = {{ pg_max_wal_senders }}		# max number of walsender processes
 				# (change requires restart)
-#wal_keep_segments = 0		# in logfile segments, 16MB each; 0 disables
+wal_keep_segments = 32		# in logfile segments, 16MB each; 0 disables
+{% endif %}
 #wal_sender_timeout = 60s	# in milliseconds; 0 disables
 
 #max_replication_slots = 10	# max number of replication slots
@@ -254,9 +256,10 @@ shared_preload_libraries = 'pg_stat_statements'		# (change requires restart)
 # - Standby Servers -
 
 # These settings are ignored on a master server.
-
-#hot_standby = on			# "off" disallows queries during recovery
+{% if role == 'master' %}
+hot_standby = on			# "off" disallows queries during recovery
 					# (change requires restart)
+{% endif %}
 #max_standby_archive_delay = 30s	# max delay before canceling queries
 					# when reading WAL from archive;
 					# -1 allows indefinite delay

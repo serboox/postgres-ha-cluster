@@ -29,5 +29,5 @@
   systemd:
     name: postgresql
     enabled: yes
-    state: started
+    state: restarted
   tags: pg-install

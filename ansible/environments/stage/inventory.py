@@ -64,6 +64,7 @@ class ExampleInventory(object):
                 "hosts": [],
                 "vars": {
                     "role": "slave",
+                    "replica_user_name": "replica",
                     "pg_listen_addresses": "*"
                 }
             },
@@ -80,8 +81,10 @@ class ExampleInventory(object):
                     "pg_shared_buffers": "128MB",
                     "pgbouncer_listen_addr": "*",
                     "pgbouncer_listen_port": 6432,
-                    "pgbouncer_max_client_conn": 1000,
-                    "pgbouncer_default_pool_size": 20
+                    "pgbouncer_max_client_conn": 10000,
+                    "pgbouncer_default_pool_size": 30,
+                    # Отвечает за количество одновременно подключенных слейвов у мастера.
+                    "pg_max_wal_senders": 99,
                 }
             },
             "ungrouped": {
@@ -184,6 +187,8 @@ class ExampleInventory(object):
             res = re.findall(r'master', server.name)
             if len(res) != 0:
                 self.res['pg-master']['hosts'].append(server.name)
+                self.res['pg-slave']['vars']['master_local_ip'] = \
+                    server.addresses['network_1'][0]['addr']
 
             res = re.findall(r'slave', server.name)
             if len(res) != 0:
