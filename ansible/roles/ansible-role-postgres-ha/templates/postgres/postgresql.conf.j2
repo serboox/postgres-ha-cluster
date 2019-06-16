@@ -55,19 +55,12 @@ external_pid_file = '/var/run/postgresql/{{ pg_version }}-main.pid'			# write an
 #------------------------------------------------------------------------------
 
 # - Connection Settings -
-{% if role == 'master' %}
-listen_addresses = '*'		# what IP address(es) to listen on;
+listen_addresses = '{{ pg_listen_addresses }}'		# what IP address(es) to listen on;
 					# comma-separated list of addresses;
 					# defaults to 'localhost'; use '*' for all
 					# (change requires restart)
-{% else %}
-#listen_addresses = 'localhost'		# what IP address(es) to listen on;
-					# comma-separated list of addresses;
-					# defaults to 'localhost'; use '*' for all
-					# (change requires restart)
-{% endif %}
-port = 5432				# (change requires restart)
-max_connections = 100			# (change requires restart)
+port = {{ pg_port }}				# (change requires restart)
+max_connections = {{ pg_max_connections }}			# (change requires restart)
 superuser_reserved_connections = 3	# (change requires restart)
 unix_socket_directories = '/var/run/postgresql'	# comma-separated list of directories
 					# (change requires restart)
@@ -116,7 +109,7 @@ ssl_key_file = '/etc/ssl/private/ssl-cert-snakeoil.key'
 
 # - Memory -
 
-shared_buffers = 128MB			# min 128kB
+shared_buffers = {{ pg_shared_buffers }}			# min 128kB
 					# (change requires restart)
 #huge_pages = try			# on, off, or try
 					# (change requires restart)

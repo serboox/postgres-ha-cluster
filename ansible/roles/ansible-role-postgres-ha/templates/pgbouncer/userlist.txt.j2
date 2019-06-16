@@ -1,0 +1,3 @@
+{% for item in credentials.users %}
+"{{ item }}" "md5{{ (credentials.users[item].password + item) | hash('md5') }}"
+{% endfor %}

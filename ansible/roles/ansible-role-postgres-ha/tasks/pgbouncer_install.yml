@@ -1,0 +1,16 @@
+---
+- name: Install PgBouncer {{ pg_version }}
+  apt:
+    name: "{{ packages }}"
+    state: present
+    update_cache: no
+    install_recommends: yes
+  vars:
+    packages:
+      - pgbouncer
+
+- name: Configure service supervisor
+  systemd:
+    name: pgbouncer
+    enabled: yes
+    state: started

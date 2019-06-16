@@ -42,7 +42,8 @@ class ExampleInventory(object):
                     "ansible_python_interpreter": "/usr/bin/python3",
                     "env": "stage",
                     "pg_user": "postgres",
-                    "pg_version": 10
+                    "pg_version": 10,
+                    "local_network": "192.168.0.0/24"
                 }
             },
             "srv": {
@@ -54,14 +55,16 @@ class ExampleInventory(object):
                 "children": [],
                 "hosts": [],
                 "vars": {
-                    "role": "master"
+                    "role": "master",
+                    "pg_listen_addresses": "*"
                 }
             },
             "pg-slave": {
                 "children": [],
                 "hosts": [],
                 "vars": {
-                    "role": "slave"
+                    "role": "slave",
+                    "pg_listen_addresses": "*"
                 }
             },
             "postgres-cluster": {
@@ -71,7 +74,14 @@ class ExampleInventory(object):
                 ],
                 "hosts": [],
                 "vars": {
-                    "ansible_ssh_common_args": "-o ProxyCommand=\"ssh -A -W %h:%p -q root@185.91.52.35\""
+                    "ansible_ssh_common_args": "-o ProxyCommand=\"ssh -A -W %h:%p -q root@185.91.52.35\"",
+                    "pg_port": 5432,
+                    "pg_max_connections": 100,
+                    "pg_shared_buffers": "128MB",
+                    "pgbouncer_listen_addr": "*",
+                    "pgbouncer_listen_port": 6432,
+                    "pgbouncer_max_client_conn": 1000,
+                    "pgbouncer_default_pool_size": 20
                 }
             },
             "ungrouped": {

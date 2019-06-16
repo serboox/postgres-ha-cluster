@@ -27,4 +27,4 @@
     name: postgresql
     enabled: yes
     state: started
-  tags: install
+  tag: install

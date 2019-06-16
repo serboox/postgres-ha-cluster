@@ -4,3 +4,9 @@
 
 - name: reload postgresql
   service: name=postgresql state=reloaded
+
+- name: restart pgbouncer
+  service: name=pgbouncer state=restarted
+
+- name: reload pgbouncer
+  service: name=pgbouncer state=reloaded
