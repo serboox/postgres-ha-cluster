@@ -1,6 +1,6 @@
 default_target: run
 
-run: lint
+run: ansible-galaxy-install lint
 	@echo "+"
 	ansible-playbook ./run.yml
 
@@ -23,6 +23,9 @@ decrypt:
 
 edit:
 	ansible-vault edit environments/stage/credentials.yml
+
+ansible-galaxy-install:
+	ansible-galaxy install -r ./environments/stage/requirements.yml
 
 show-local-ip:
 	ansible -m shell -a "ip a | grep inet | grep eth0 | awk '{print \$$2}'" all

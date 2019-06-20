@@ -12,7 +12,8 @@ skip_list:
   #- ANSIBLE0002     # Override - TrailingWhitespaceRule
   #- 'BIO252'        # Broken   - Block should have rescue
   #- '204'           # Override - Line too long
-  - '301'           # Commands should not change things if nothing needs doing
+  - '301'            # Commands should not change things if nothing needs doing
+  - '306'            # Shells that use pipes should set the pipefail option
   #- '402'           # Disable  - Mercurial checkouts must contain explicit revision
   #- '601'           # Temp     - Don't compare to literal True/False
   #- '602'           # Temp     - Don't compare to empty string

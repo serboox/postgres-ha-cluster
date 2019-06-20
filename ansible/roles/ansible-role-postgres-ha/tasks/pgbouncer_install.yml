@@ -1,5 +1,5 @@
 ---
-- name: Install PgBouncer {{ pg_version }}
+- name: Install PgBouncer
   apt:
     name: "{{ packages }}"
     state: present
