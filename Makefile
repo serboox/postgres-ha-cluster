@@ -1,5 +1,8 @@
 
-run: tf-apply ansible-up
+run: tf-apply sleep ansible-up
+
+sleep:
+	sleep 10
 
 destroy: tf-destroy
 

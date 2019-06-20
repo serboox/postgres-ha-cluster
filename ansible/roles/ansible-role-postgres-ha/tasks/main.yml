@@ -8,6 +8,10 @@
 - include: pg_install.yml
 - include: pg_config.yml
 - include: pg_databases.yml
+  when: role == "master"
 - include: pg_extensions.yml
+  when: role == "master"
+- include: pg_slave_replication.yml
+  when: role == "slave"
 - include: pgbouncer_install.yml
 - include: pgbouncer_config.yml
