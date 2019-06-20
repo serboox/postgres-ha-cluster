@@ -5,9 +5,31 @@
     msg: "This host is in {{ env }} environment!!!"
 
 - include: sys_libs_install.yml
+
 - include: pg_install.yml
+
 - include: pg_config.yml
+
 - include: pg_databases.yml
-- include: pg_extensions.yml
+  when: role == "master"
+
+- name: Check recovery.conf file exists
+  stat:
+    path: /var/lib/postgresql/{{ pg_version }}/main/recovery.conf
+  register: recovery_conf
+
+- name: File recovery.conf exists?
+  debug:
+    var: recovery_conf.stat.exists
+
+- include: pg_slave_replication.yml
+  when:
+    - role == "slave"
+    - not recovery_conf.stat.exists
+
+- include: pg_enable_extensions.yml
+  when: role == "master"
+
 - include: pgbouncer_install.yml
+
 - include: pgbouncer_config.yml

@@ -52,24 +52,3 @@
     group: "{{ pg_user }}"
   notify: reload postgresql
   tags: pg-config
-
-- name: Create a directory if it does not exist
-  become: true
-  file:
-    path: "/var/lib/postgresql/{{ pg_version }}/main"
-    #mode: "0755"
-    #owner: "{{ pg_user }}"
-    #group: "{{ pg_user }}"
-    state: absent
-  when: role == "slave"
-  tags: pg-install
-
-- name: "Stage 3: Initialize new PostgreSQL cluster"
-  become: true
-  #become_user: "{{ pg_user }}"
-  shell: "export PGPASSWORD='{{ credentials.users[replica_user_name].password }}' && \
-  pg_basebackup -c fast -X stream \
-  -h {{ master_local_ip }} -U {{ replica_user_name }} \
-  -D /var/lib/postgresql/{{ pg_version }}/main"
-  when: role == "slave"
-  tags: pg-install

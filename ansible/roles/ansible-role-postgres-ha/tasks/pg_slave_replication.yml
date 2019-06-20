@@ -1,0 +1,47 @@
+---
+- name: Stop PostgreSQL
+  service:
+    name: postgresql
+    state: stopped
+  tags: pg-install
+
+- name: Remove a directory with database
+  become: true
+  file:
+    path: "/var/lib/postgresql/{{ pg_version }}/main"
+    state: absent
+  tags: pg-install
+
+#- name: Create empty directory for postgres database
+#  become: true
+#  file:
+#    path: "/var/lib/postgresql/{{ pg_version }}/main"
+#    #mode: "0755"
+#    owner: "{{ pg_user }}"
+#    #group: "{{ pg_user }}"
+#    state: directory
+ # tags: pg-install
+
+  # https://github.com/lesovsky/ansible-postgresql-sr-on-el6/blob/master/tasks/configure-slaves.yml
+- name: "Stage 3: Initialize new PostgreSQL cluster"
+  become: true
+  become_user: "{{ replica_user_name }}"
+  shell: "export PGPASSWORD='{{ credentials.users[replica_user_name].password }}' && \
+  pg_basebackup -P -R -c fast -X stream \
+  -h {{ master_local_ip }} -U {{ replica_user_name }} \
+  -D /var/lib/postgresql/{{ pg_version }}/main"
+  tags: pg-install
+
+- name: Add recovery.conf file
+  template:
+    src: postgres/recovery.conf.j2
+    dest: "/var/lib/postgresql/{{ pg_version }}/main/recovery.conf"
+    owner: "{{ pg_user }}"
+    group: "{{ pg_user }}"
+  tags: pg-install
+
+- name: Start PostgreSQL
+  service:
+    name: postgresql
+    state: started
+  tags: pg-install

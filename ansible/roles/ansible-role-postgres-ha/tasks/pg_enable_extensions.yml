@@ -1,0 +1,10 @@
+---
+- name: Adds 'pg_stat_statements' extension to all databases
+  become: true
+  become_user: "{{ pg_user }}"
+  postgresql_ext:
+    name: pg_stat_statements
+    db: "{{ item.key }}"
+    cascade: true
+  with_dict: "{{ credentials.users }}"
+  tags: pg-extensions

@@ -64,7 +64,6 @@ class ExampleInventory(object):
                 "hosts": [],
                 "vars": {
                     "role": "slave",
-                    "replica_user_name": "replica",
                     "pg_listen_addresses": "*"
                 }
             },
@@ -85,6 +84,7 @@ class ExampleInventory(object):
                     "pgbouncer_default_pool_size": 30,
                     # Отвечает за количество одновременно подключенных слейвов у мастера.
                     "pg_max_wal_senders": 99,
+                    "replica_user_name": "postgres",
                 }
             },
             "ungrouped": {

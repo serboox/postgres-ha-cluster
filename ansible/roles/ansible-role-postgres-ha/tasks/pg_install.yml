@@ -25,6 +25,18 @@
       - postgresql-client-{{ pg_version }}
   tags: pg-install
 
+- name: Install PostgreSQL {{ pg_version }} Modules
+  apt:
+    name: "{{ packages }}"
+    state: present
+    update_cache: no
+    install_recommends: yes
+  vars:
+    packages:
+      - postgresql-contrib-{{ pg_version }}
+  notify: restart postgresql
+  tags: pg-extensions
+
 - name: Configure service supervisor
   systemd:
     name: postgresql
