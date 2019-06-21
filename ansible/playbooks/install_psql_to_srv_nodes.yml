@@ -1,0 +1,30 @@
+
+
+
+
+---
+- name: Install postgres components to Service nodes
+  hosts: srv
+  become: true
+  gather_facts: False
+  tasks:
+    - name: Add an Apt signing key, uses whichever key is at the URL
+      apt_key:
+        url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+        state: present
+
+    - name: Add PostgreSQL apt repository
+      apt_repository:
+        repo: deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main
+        state: present
+        filename: pgdg
+
+    - name: Install PostgreSQL components {{ pg_version }}
+      apt:
+        name: "{{ packages }}"
+        state: present
+        update_cache: yes
+        install_recommends: yes
+      vars:
+        packages:
+          - postgresql-client-{{ pg_version }}

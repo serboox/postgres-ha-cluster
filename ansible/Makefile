@@ -4,7 +4,7 @@ run: ansible-galaxy-install lint
 	@echo "+"
 	ansible-playbook ./run.yml
 
-check: lint
+check: ansible-galaxy-install lint
 	@echo "+"
 	ansible-playbook ./run.yml --check
 

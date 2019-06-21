@@ -1,0 +1,7 @@
+---
+- name: Add host vars in /etc/hosts
+  hosts: all
+  become: true
+  gather_facts: False
+  roles:
+    - serboox.fill_etc_hosts

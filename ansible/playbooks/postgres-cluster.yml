@@ -6,4 +6,4 @@
   vars_files:
     - "{{ inventory_dir }}/credentials.yml"
   roles:
-    - ansible-role-postgres-ha
+    - serboox.ansible-role-postgres-ha
