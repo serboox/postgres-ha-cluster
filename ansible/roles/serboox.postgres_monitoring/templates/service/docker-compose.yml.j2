@@ -1,0 +1,60 @@
+version: '3.3'
+services:
+  node-exporter:
+    image: prom/node-exporter:{{ node_exporter_version }}
+    user: root
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.ignored-mount-points="^/(sys|proc|dev|host|etc)($$|/)"'
+    networks:
+      - back_net
+  prometheus:
+    build: ./prometheus
+    ports:
+      - "{{ prometheus_port }}:{{ prometheus_port }}"
+    volumes:
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention=1d'
+    networks:
+      - back_net
+  grafana:
+    image: grafana/grafana:{{ grafana_version }}
+    volumes:
+      - grafana_data:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER={{ pg_user }}
+      - GF_SECURITY_ADMIN_PASSWORD={{ credentials.users[pg_user].password }}
+    ports:
+      - "{{ grafana_port }}:{{ grafana_port }}"
+    networks:
+      - back_net
+  #alertmanager:
+  #  build: ./alertmanager
+  #  command:
+  #    - '--config.file=/etc/alertmanager/config.yml'
+  #  ports:
+  #    - "{{ alertmanager_port }}:{{ alertmanager_port }}"
+  #  networks:
+  #    - back_net
+
+volumes:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  back_net:
+    driver: bridge
+    driver_opts:
+        com.docker.network.enable_ipv6: "false"
+    ipam:
+        driver: default
+        config:
+            - subnet: 10.0.1.0/24

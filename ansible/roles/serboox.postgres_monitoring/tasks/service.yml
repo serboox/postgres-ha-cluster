@@ -1,0 +1,55 @@
+---
+- name: Create ~/compose/service/prometheus directory
+  file:
+    path: ~/compose/service/prometheus
+    state: directory
+    recurse: yes
+
+- name: Create ~/compose/service/alertmanager directory
+  file:
+    path: ~/compose/service/alertmanager
+    state: directory
+
+- name: Copy prometheus.yml file
+  template:
+    src: service/prometheus/prometheus.yml.j2
+    dest: ~/compose/service/prometheus/prometheus.yml
+
+- name: Copy prometheus Dockerfile file
+  template:
+    src: service/prometheus/Dockerfile.j2
+    dest: ~/compose/service/prometheus/Dockerfile
+
+#- name: Copy prometheus alerts.yml file
+#  template:
+#    src: service/prometheus/alerts.yml.j2
+#    dest: ~/compose/service/prometheus/alerts.yml
+
+- name: Copy alertmanager Dockerfile file
+  template:
+    src: service/alertmanager/Dockerfile.j2
+    dest: ~/compose/service/alertmanager/Dockerfile
+
+- name: Copy alertmanager config.yml file
+  template:
+    src: service/alertmanager/config.yml.j2
+    dest: ~/compose/service/alertmanager/config.yml
+
+- name: Copy docker-compose.yml file
+  template:
+    src: service/docker-compose.yml.j2
+    dest: ~/compose/service/docker-compose.yml
+
+- name: Run service containers
+  docker_compose:
+    project_src: ~/compose/service
+  register: output
+
+- name: Show all prometheus properties
+  debug:
+    var: output.ansible_facts
+
+#- name: Check prometheus container is running
+#  assert:
+#    that:
+#      - output.ansible_facts['service']['service_prometheus_1']['state']['running']

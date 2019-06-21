@@ -2,6 +2,6 @@
 - name: Install docker with role geerlingguy.docker
   hosts: all
   vars:
-    docker_install_compose: false
+    docker_install_compose: true
   roles:
     - geerlingguy.docker

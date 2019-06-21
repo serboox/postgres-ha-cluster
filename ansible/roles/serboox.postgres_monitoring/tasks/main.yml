@@ -1,2 +1,6 @@
 ---
-- include: install_pg_exporter.yml
+- include: pg_cluster.yml
+  when: '"postgres-cluster" in group_names'
+
+- include: service.yml
+  when: '"srv" in group_names'

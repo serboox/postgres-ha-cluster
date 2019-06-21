@@ -1,0 +1,19 @@
+version: '3.3'
+services:
+  pg_exporter:
+    image: wrouesnel/postgres_exporter:{{ postgres_exporter_version }}
+    environment:
+      - DATA_SOURCE_NAME=postgresql://{{ pg_user }}:{{ credentials.users[pg_user].password }}@127.0.0.1:{{ pg_port }}/postgres?sslmode=disable
+    network_mode: host
+  node_exporter:
+    image: prom/node-exporter:{{ node_exporter_version }}
+    user: root
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.ignored-mount-points="^/(sys|proc|dev|host|etc)($$|/)"'
+    network_mode: host

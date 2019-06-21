@@ -1,8 +1,8 @@
 ---
-- import_playbook: ./playbooks/python.yml
-- import_playbook: ./playbooks/hosts.yml
-- import_playbook: ./playbooks/users.yml
-- import_playbook: ./playbooks/pg_cluster.yml
-- import_playbook: ./playbooks/psql.yml
-- import_playbook: ./playbooks/docker.yml
+#- import_playbook: ./playbooks/python.yml
+#- import_playbook: ./playbooks/hosts.yml
+#- import_playbook: ./playbooks/users.yml
+#- import_playbook: ./playbooks/pg_cluster.yml
+#- import_playbook: ./playbooks/psql.yml
+#- import_playbook: ./playbooks/docker.yml
 - import_playbook: ./playbooks/pg_monitoring.yml

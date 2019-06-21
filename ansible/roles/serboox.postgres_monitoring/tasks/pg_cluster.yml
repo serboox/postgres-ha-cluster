@@ -1,0 +1,30 @@
+---
+- name: Create ~/compose/pg_cluster directory
+  file:
+    path: ~/compose/pg_cluster
+    state: directory
+    recurse: yes
+
+- name: Copy docker-compose.yml file
+  template:
+    src: pg_cluster/docker-compose.yml.j2
+    dest: ~/compose/pg_cluster/docker-compose.yml
+
+- name: Run pg_cluster containers
+  docker_compose:
+    project_src: ~/compose/pg_cluster
+  register: output
+
+- name: Show pg_exporter status
+  debug:
+    var: output.ansible_facts['pg_exporter']['pg_cluster_pg_exporter_1']['state']['running']
+
+- name: Show node_exporter status
+  debug:
+    var: output.ansible_facts['node_exporter']['pg_cluster_node_exporter_1']['state']['running']
+
+- name: Check pg_cluster_ containers is running
+  assert:
+    that:
+      - output.ansible_facts['pg_exporter']['pg_cluster_pg_exporter_1']['state']['running']
+      - output.ansible_facts['node_exporter']['pg_cluster_node_exporter_1']['state']['running']
