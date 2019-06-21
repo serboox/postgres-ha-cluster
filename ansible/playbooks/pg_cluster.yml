@@ -1,0 +1,9 @@
+---
+- name: Configure PostgreSQL Cluster
+  hosts: postgres-cluster
+  become: true
+  gather_facts: True
+  vars_files:
+    - "{{ inventory_dir }}/credentials.yml"
+  roles:
+    - serboox.postgres_ha

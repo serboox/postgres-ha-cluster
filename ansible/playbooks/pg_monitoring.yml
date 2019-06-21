@@ -1,9 +1,9 @@
 ---
-- name: Configure PostgreSQL Cluster
-  hosts: postgres-cluster
+- name: Install Monitoring for PostgreSQL Cluster
+  hosts: all
   become: true
   gather_facts: True
   vars_files:
     - "{{ inventory_dir }}/credentials.yml"
   roles:
-    - serboox.ansible-role-postgres-ha
+    - serboox.postgres_monitoring

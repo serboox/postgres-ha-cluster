@@ -1,8 +1,8 @@
 ---
-- import_playbook: ./playbooks/install_python.yml
-- import_playbook: ./playbooks/add_hosts_vars.yml
+- import_playbook: ./playbooks/python.yml
+- import_playbook: ./playbooks/hosts.yml
 - import_playbook: ./playbooks/users.yml
-- import_playbook: ./playbooks/postgres-cluster.yml
-- import_playbook: ./playbooks/install_psql_to_srv_nodes.yml
-- import_playbook: ./playbooks/install_docker.yml
-- import_playbook: ./playbooks/docker_pg_exporter.yml
+- import_playbook: ./playbooks/pg_cluster.yml
+- import_playbook: ./playbooks/psql.yml
+- import_playbook: ./playbooks/docker.yml
+- import_playbook: ./playbooks/pg_monitoring.yml
