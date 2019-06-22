@@ -3,12 +3,17 @@ global:
   scrape_interval: '{{ scrape_interval }}'
 
 scrape_configs:
-  - job_name: 'node'
+  - job_name: node-exporter-srv
     static_configs:
       - targets:
         - 'node-exporter:{{ node_exporter_port }}'
 
-{% for host in hostvars %}{% if host not in group_names %}
+  - job_name: cadvisor-exporter-srv
+    static_configs:
+      - targets:
+        - 'cadvisor:{{ cadvisor_exporter_port }}'
+
+{% for host in hostvars %}{% if hostvars[host]['role'] != 'service' %}
   - job_name: pg-exporter-{{host}}
     static_configs:
       - targets:
@@ -18,6 +23,11 @@ scrape_configs:
     static_configs:
       - targets:
         - '{{ hostvars[host].ansible_host }}:{{ node_exporter_port }}'
+
+  - job_name: cadvisor-exporter-{{host}}
+    static_configs:
+      - targets:
+        - '{{ hostvars[host].ansible_host }}:{{ cadvisor_exporter_port }}'
 
 {% endif %}{% endfor %}
 #rule_files:

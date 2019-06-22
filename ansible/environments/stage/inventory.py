@@ -49,7 +49,9 @@ class ExampleInventory(object):
             "srv": {
                 "children": [],
                 "hosts": [],
-                "vars": {}
+                "vars": {
+                    "role": "service",
+                }
             },
             "pg-master": {
                 "children": [],
