@@ -31,7 +31,7 @@
     src: postgres/pg_ident.conf.j2
     dest: "/etc/postgresql/{{ pg_version }}/main/pg_ident.conf"
     owner: "{{ pg_user }}"
-    group: "{{ pg_user }}"
+    group: "{{ pg_group }}"
   notify: reload postgresql
   tags: pg-config
 
@@ -40,7 +40,7 @@
     src: postgres/postgresql.conf.j2
     dest: "/etc/postgresql/{{ pg_version }}/main/postgresql.conf"
     owner: "{{ pg_user }}"
-    group: "{{ pg_user }}"
+    group: "{{ pg_group }}"
   notify: restart postgresql
   tags: pg-config
 
@@ -49,6 +49,6 @@
     src: postgres/start.conf.j2
     dest: "/etc/postgresql/{{ pg_version }}/main/start.conf"
     owner: "{{ pg_user }}"
-    group: "{{ pg_user }}"
+    group: "{{ pg_group }}"
   notify: reload postgresql
   tags: pg-config

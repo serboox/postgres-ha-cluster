@@ -17,6 +17,7 @@ skip_list:
   #- '402'           # Disable  - Mercurial checkouts must contain explicit revision
   #- '601'           # Temp     - Don't compare to literal True/False
   #- '602'           # Temp     - Don't compare to empty string
+  - '701'            # Role info should contain author
 #tags:
 #  - run_this_tag
 use_default_rules: true

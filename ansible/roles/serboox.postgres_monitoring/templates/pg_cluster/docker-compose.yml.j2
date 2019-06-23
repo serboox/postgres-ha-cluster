@@ -2,11 +2,13 @@ version: '3.3'
 services:
   pg_exporter:
     image: wrouesnel/postgres_exporter:{{ postgres_exporter_version }}
+    restart: always
     environment:
-      - DATA_SOURCE_NAME=postgresql://{{ pg_user }}:{{ credentials.users[pg_user].password }}@127.0.0.1:{{ pg_port }}/postgres?sslmode=disable
+      - DATA_SOURCE_NAME=postgresql://{{ pg_user }}:{{ credentials.admins[pg_user].password }}@127.0.0.1:{{ pg_port }}/postgres?sslmode=disable
     network_mode: host
   node_exporter:
     image: prom/node-exporter:{{ node_exporter_version }}
+    restart: always
     user: root
     volumes:
       - /proc:/host/proc:ro
@@ -19,6 +21,7 @@ services:
     network_mode: host
   cadvisor:
     image: google/cadvisor:{{ cadvisor_exporter_version }}
+    restart: always
     volumes:
       - '/:/rootfs:ro'
       - '/var/run:/var/run:rw'

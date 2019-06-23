@@ -4,7 +4,7 @@
   become_user: "{{ pg_user }}"
   postgresql_ext:
     name: pg_stat_statements
-    db: "{{ item.key }}"
+    db: "{{ item.value.database }}"
     cascade: true
   with_dict: "{{ credentials.users }}"
   tags: pg-extensions

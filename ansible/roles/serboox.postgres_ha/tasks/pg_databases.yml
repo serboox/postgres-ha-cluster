@@ -3,8 +3,7 @@
   become: true
   become_user: "{{ pg_user }}"
   postgresql_db:
-    name: "{{ item.key }}"
-  when: item.key != pg_user
+    name: "{{ item.value.database }}"
   with_dict: "{{ credentials.users }}"
   tags: pg-databases
 
@@ -13,8 +12,16 @@
   become_user: "{{ pg_user }}"
   postgresql_user:
     name: "{{ pg_user }}"
-    password: "{{ credentials.users[pg_user].password }}"
+    password: "{{ credentials.admins[pg_user].password }}"
     expires: infinity
+
+- name: Create replication user
+  become: true
+  become_user: "{{ pg_user }}"
+  postgresql_user:
+    name: "{{ replica_user_name }}"
+    password: "{{ credentials.admins[replica_user_name].password }}"
+    role_attr_flags: REPLICATION
 
 - name: Connect database, create users
   become: true
@@ -23,7 +30,7 @@
     name: "{{ item.key }}"
     password: "{{ item.value.password }}"
     expires: infinity
-  when: item.key != pg_user
+    role_attr_flags: CREATEDB,NOSUPERUSER,NOREPLICATION
   with_dict: "{{ credentials.users }}"
   tags: pg-databases
 

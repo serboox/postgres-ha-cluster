@@ -1,3 +1,6 @@
+{% for item in credentials.admins %}
+"{{ item }}" "md5{{ (credentials.admins[item].password + item) | hash('md5') }}"
+{% endfor %}
 {% for item in credentials.users %}
 "{{ item }}" "md5{{ (credentials.users[item].password + item) | hash('md5') }}"
 {% endfor %}

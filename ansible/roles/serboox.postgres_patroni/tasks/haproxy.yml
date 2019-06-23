@@ -1,0 +1,20 @@
+---
+- name: Install haproxy
+  apt:
+    name: '{{ packages }}'
+    state: present
+  vars:
+    packages:
+    - haproxy
+
+- name: Put haproxy config
+  template:
+    src: haproxy/haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+    backup: yes
+
+- name: Restart and enable haproxy
+  service:
+    name: haproxy
+    state: restarted
+    enabled: yes

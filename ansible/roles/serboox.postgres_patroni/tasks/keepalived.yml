@@ -1,0 +1,28 @@
+---
+- name: Install keepalived
+  apt:
+    name: '{{ packages }}'
+    state: present
+  vars:
+    packages:
+    - keepalived
+
+- name: Put alert.sh.j2 script
+  template:
+    src: keepalived/alert.sh.j2
+    dest: /usr/local/sbin/alert.sh
+    backup: yes
+    mode: '755'
+
+  when: Install is defined
+- name: Put config
+  template:
+    src: keepalived.conf.j2
+    dest: /etc/keepalived/keepalived.conf
+    backup: yes
+
+- name: Restart and enable keepalived
+  service:
+    name: keepalived
+    state: restarted
+    enabled: yes

@@ -1,3 +1,6 @@
 ---
 - src: geerlingguy.docker
   version: 2.5.2
+
+- src: idealista.consul-role
+  version: 1.2.3

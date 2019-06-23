@@ -12,5 +12,7 @@
         name: "{{ item.key }}"
         password: "{{ item.value.password|password_hash('sha512', 65534|random(seed=inventory_hostname)|string) }}"
         groups: "{{ item.value.groups | default(omit) }}"
-      when: item.key != pg_user
+      when:
+        - item.key != pg_user
+        - item.key != replica_user_name
       with_dict: "{{ credentials.users }}"

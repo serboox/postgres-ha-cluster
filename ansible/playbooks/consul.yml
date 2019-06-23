@@ -1,0 +1,7 @@
+---
+- name: Install Consul Cluster
+  hosts: all
+  become: true
+  gather_facts: true
+  roles:
+    - idealista.consul-role

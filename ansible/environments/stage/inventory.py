@@ -42,8 +42,20 @@ class ExampleInventory(object):
                     "ansible_python_interpreter": "/usr/bin/python3",
                     "env": "stage",
                     "pg_user": "postgres",
+                    "pg_group": "postgres",
+                    "replica_user_name": "replicator",
                     "pg_version": 10,
-                    "local_network": "192.168.0.0/24"
+                    "local_network": "192.168.0.0/24",
+
+                    "consul_version": "1.5.1",
+                    "consul_user": "consul",
+                    "consul_group": "consul",
+                    "consul_http_port": 8500,
+                    "consul_dns_port": 8600,
+                    "consul_server_nodes": [],  # dynamic
+
+                    "haproxy_maxconn": 1000,
+                    "cluster_virtual_ip": "192.168.1.0",
                 }
             },
             "srv": {
@@ -51,6 +63,9 @@ class ExampleInventory(object):
                 "hosts": [],
                 "vars": {
                     "role": "service",
+                    "consul_agent": False,
+                    "consul_server": False,
+                    "consul_ui": True
                 }
             },
             "pg-master": {
@@ -66,7 +81,9 @@ class ExampleInventory(object):
                 "hosts": [],
                 "vars": {
                     "role": "slave",
-                    "pg_listen_addresses": "*"
+                    "pg_listen_addresses": "*",
+                    "master_local_ip": '',  # dynamic
+                    "master_host_name": ''  # dynamic
                 }
             },
             "postgres-cluster": {
@@ -77,16 +94,28 @@ class ExampleInventory(object):
                 "hosts": [],
                 "vars": {
                     "ansible_ssh_common_args": "-o ProxyCommand=\"ssh -A -W %h:%p -q root@185.91.52.35\"",
+
                     "pg_port": 5432,
                     "pg_max_connections": 100,
                     "pg_shared_buffers": "128MB",
+                    "pg_unix_socket_directories": '/var/run/postgresql',
+
                     "pgbouncer_listen_addr": "*",
                     "pgbouncer_listen_port": 6432,
                     "pgbouncer_max_client_conn": 10000,
                     "pgbouncer_default_pool_size": 30,
                     # Отвечает за количество одновременно подключенных слейвов у мастера.
                     "pg_max_wal_senders": 99,
-                    "replica_user_name": "postgres",
+
+                    "consul_agent": False,
+                    "consul_server": True,
+                    "consul_ui": False,
+
+                    "patroni_version": "v1.5.6",
+                    "patroni_host": "0.0.0.0",
+                    "patroni_port": 8008,
+                    "patroni_username": "patroni",
+                    "patroni_scope": "pg_cluster"
                 }
             },
             "ungrouped": {
@@ -189,12 +218,19 @@ class ExampleInventory(object):
             res = re.findall(r'master', server.name)
             if len(res) != 0:
                 self.res['pg-master']['hosts'].append(server.name)
+                self.res['pg-slave']['vars']['master_host_name'] = server.name
                 self.res['pg-slave']['vars']['master_local_ip'] = \
                     server.addresses['network_1'][0]['addr']
+                self.res['all']['vars']['consul_server_nodes'].append(
+                    server.addresses['network_1'][0]['addr']
+                )
 
             res = re.findall(r'slave', server.name)
             if len(res) != 0:
                 self.res['pg-slave']['hosts'].append(server.name)
+                self.res['all']['vars']['consul_server_nodes'].append(
+                    server.addresses['network_1'][0]['addr']
+                )
         return self.res
 
     def _get_identity_session(self):

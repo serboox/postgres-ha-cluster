@@ -1,0 +1,52 @@
+---
+- name: Install debug application
+  hosts: all
+  become: true
+  gather_facts: True
+  tasks:
+    - name: Install Applications
+      apt:
+        name: "{{ packages }}"
+        state: present
+        update_cache: yes
+        install_recommends: yes
+      vars:
+        packages:
+          - htop
+          - vim
+          - atop
+          - jq
+
+    - name: Install python3 requirements
+      apt:
+        name: "{{ packages }}"
+        state: present
+        update_cache: yes
+        install_recommends: yes
+      vars:
+        packages:
+          - python3-pip
+          - python3-setuptools
+          - python3-dev
+
+    - name: Install pip3 modules
+      pip:
+        name: "{{ packages }}"
+        executable: pip3
+      vars:
+        packages:
+          - setuptools
+          - docker
+          - docker-compose
+
+    - name: Install python2 requirements
+      apt:
+        name: "{{ packages }}"
+        state: present
+        update_cache: yes
+        install_recommends: yes
+      vars:
+        packages:
+          - python-pip
+          - python-setuptools
+          - python-dev

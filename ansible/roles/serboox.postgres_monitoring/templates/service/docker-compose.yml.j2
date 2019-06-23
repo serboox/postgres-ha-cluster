@@ -2,6 +2,7 @@ version: '3.3'
 services:
   prometheus:
     build: ./prometheus
+    restart: always
     ports:
       - "{{ prometheus_port }}:{{ prometheus_port }}"
     volumes:
@@ -14,6 +15,7 @@ services:
       - back_net
   node-exporter:
     image: prom/node-exporter:{{ node_exporter_version }}
+    restart: always
     user: root
     volumes:
       - /proc:/host/proc:ro
@@ -27,6 +29,7 @@ services:
       - back_net
   cadvisor:
     image: google/cadvisor:{{ cadvisor_exporter_version }}
+    restart: always
     volumes:
       - '/:/rootfs:ro'
       - '/var/run:/var/run:rw'
@@ -38,17 +41,19 @@ services:
       - back_net
   #grafana:
   #  image: grafana/grafana:{{ grafana_version }}
+  #  restart: always
   #  volumes:
   #    - grafana_data:/var/lib/grafana
   #  environment:
   #    - GF_SECURITY_ADMIN_USER={{ pg_user }}
-  #    - GF_SECURITY_ADMIN_PASSWORD={{ credentials.users[pg_user].password }}
+  #    - GF_SECURITY_ADMIN_PASSWORD={{ credentials.admins[pg_user].password }}
   #  ports:
   #    - "{{ grafana_port }}:{{ grafana_port }}"
   #  networks:
   #    - back_net
   #alertmanager:
   #  build: ./alertmanager
+  #  restart: always
   #  command:
   #    - '--config.file=/etc/alertmanager/config.yml'
   #  ports:

@@ -1,0 +1,5 @@
+---
+patroni_version: v1.5.6
+patroni_scope: "pg_cluster"
+
+keepalived_priority: 99
