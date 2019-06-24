@@ -25,7 +25,7 @@
   # https://github.com/lesovsky/ansible-postgresql-sr-on-el6/blob/master/tasks/configure-slaves.yml
 - name: "Stage 3: Initialize new PostgreSQL cluster"
   become: true
-  become_user: "{{ replica_user_name }}"
+  become_user: "{{ pg_user }}"
   shell: "export PGPASSWORD='{{ credentials.admins[replica_user_name].password }}' && \
   pg_basebackup -P -R -c fast -X stream \
   -h {{ master_local_ip }} -U {{ replica_user_name }} \
@@ -43,5 +43,5 @@
 - name: Start PostgreSQL
   service:
     name: postgresql
-    state: started
+    state: restarted
   tags: pg-install

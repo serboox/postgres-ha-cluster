@@ -28,7 +28,7 @@
   become_user: "{{ pg_user }}"
   postgresql_user:
     name: "{{ item.key }}"
-    password: "{{ item.value.password }}"
+    password:  "{{ item.value.password }}"
     expires: infinity
     role_attr_flags: CREATEDB,NOSUPERUSER,NOREPLICATION
   with_dict: "{{ credentials.users }}"

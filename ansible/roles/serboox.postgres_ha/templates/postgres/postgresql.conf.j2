@@ -176,14 +176,17 @@ shared_preload_libraries = 'pg_stat_statements'		# (change requires restart)
 
 # - Settings -
 {% if role == 'master' %}
-#wal_level = replica			# minimal, replica, or logical
+wal_level = replica			# minimal, replica, or logical
 {% endif %}
 					# (change requires restart)
 #fsync = on				# flush data to disk for crash safety
 					# (turning this off can cause
 					# unrecoverable data corruption)
-#synchronous_commit = on		# synchronization level;
+{% if role == 'master' %}
+# опционально: не дожидаемся fsync на реплике при синхронной репликации
+# synchronous_commit = remote_write		# synchronization level;
 					# off, local, remote_write, remote_apply, or on
+{% endif %}
 #wal_sync_method = fsync		# the default is the first option
 					# supported by the operating system:
 					#   open_datasync
@@ -195,7 +198,7 @@ shared_preload_libraries = 'pg_stat_statements'		# (change requires restart)
 #wal_compression = off			# enable compression of full-page writes
 {% if role == 'master' %}
 # это нужно, чтобы работал pg_rewind
-# wal_log_hints = off			# also do full page writes of non-critical updates
+ wal_log_hints = off			# also do full page writes of non-critical updates
 {% endif %}
 					# (change requires restart)
 #wal_buffers = -1			# min 32kB, -1 sets based on shared_buffers

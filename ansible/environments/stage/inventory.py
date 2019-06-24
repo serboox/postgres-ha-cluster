@@ -73,7 +73,6 @@ class ExampleInventory(object):
                 "hosts": [],
                 "vars": {
                     "role": "master",
-                    "pg_listen_addresses": "*"
                 }
             },
             "pg-slave": {
@@ -81,7 +80,6 @@ class ExampleInventory(object):
                 "hosts": [],
                 "vars": {
                     "role": "slave",
-                    "pg_listen_addresses": "*",
                     "master_local_ip": '',  # dynamic
                     "master_host_name": ''  # dynamic
                 }
@@ -95,6 +93,7 @@ class ExampleInventory(object):
                 "vars": {
                     "ansible_ssh_common_args": "-o ProxyCommand=\"ssh -A -W %h:%p -q root@185.91.52.35\"",
 
+                    "pg_listen_addresses": "*",
                     "pg_port": 5432,
                     "pg_max_connections": 100,
                     "pg_shared_buffers": "128MB",
