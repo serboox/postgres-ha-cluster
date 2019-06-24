@@ -87,11 +87,6 @@
   systemd:
     daemon_reload: yes
 
-#- name: Stop postgresql
-#  service:
-#    name: postgresql
-#    state: stopped
-
 - name: Change file ownership, group for /etc/postgres
   file:
     path: "/etc/postgresql/{{ pg_version }}"
@@ -104,6 +99,23 @@
     name: patroni
     state: restarted
     enabled: yes
+  when: role == "master"
+
+- name: Sleep 10 second
+  pause:
+    seconds: 10
+
+- name: Restart and enable Patroni
+  service:
+    name: patroni
+    state: restarted
+    enabled: yes
+  when: role != "master"
+
+#- name: Restart PostgreSQL
+#  service:
+#    name: postgresql
+#    state: restarted
 
 
 

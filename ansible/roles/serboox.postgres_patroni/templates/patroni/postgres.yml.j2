@@ -24,35 +24,21 @@ bootstrap:
       parameters:
         wal_level: replica
         hot_standby: "on"
-        wal_keep_segments: 8
         max_wal_senders: {{ pg_max_wal_senders }}
-        max_replication_slots: 10
-        wal_log_hints: "on"
-        archive_mode: "on"
-        archive_timeout: 1800s
-        archive_command: mkdir -p ../wal_archive && test ! -f ../wal_archive/%f && cp %p ../wal_archive/%f
-      recovery_conf:
-        restore_command: cp ../wal_archive/%f %p
-
-initdb:
-  - encoding: UTF8
-
-pg_hba:  # Add following lines to pg_hba.conf after running 'initdb'
-  - local    all                   all                                       peer
-# IPv4 local connections:
-  - host     all                   all                  127.0.0.1/32         md5
-# IPv6 local connections:
-  - host     all                   all                    ::1/128            md5
-# IPv4 Для безграничного подключения пользователей к своим базам
-{% for item in credentials.users %}
-  - host   {{ item }}       {{ item }}                 0.0.0.0/0             md5
-{% endfor %}
-# Для работы pg_rewind
-  - host     all                   all               {{ local_network }}     md5
-# Для работы утилиты pg_basebackup
-  - host  replication    {{ replica_user_name }}     {{ local_network }}     md5
-
-users:
+        wal_keep_segments: 32
+        max_replication_slots: 32
+        #wal_log_hints: "on" # это нужно, чтобы работал pg_rewind
+        #archive_mode: "on"
+        #archive_timeout: 1800s
+        #archive_command: mkdir -p ../wal_archive && test ! -f ../wal_archive/%f && cp %p ../wal_archive/%f
+        #recovery_conf:
+          #restore_command: cp ../wal_archive/%f %p
+  # some desired options for 'initdb'
+  initdb:  # Note: It needs to be a list (some options need values, others are switches)
+    - encoding: UTF8
+    - lc-collate: en_US.UTF-8
+    - lc-ctype: en_US.UTF-8
+  users:
     #dba:
     #  password: secret
     # options:
@@ -62,6 +48,23 @@ users:
       password: {{ credentials.admins[replica_user_name].password }}
       options:
         - replication
+  pg_hba:  # Add following lines to pg_hba.conf after running 'initdb'
+    - local    all                   all                                       peer
+  # IPv4 local connections:
+    - host     all                   all                  127.0.0.1/32         md5
+  # IPv6 local connections:
+    - host     all                   all                    ::1/128            md5
+  # IPv4 Для безграничного подключения пользователей к своим базам
+{% for item in credentials.users %}
+    - host   {{ item }}       {{ item }}                   0.0.0.0/0           md5
+{% endfor %}
+  # Для работы pg_rewind
+    - host     all                   all               {{ local_network }}     md5
+  # Для работы утилиты pg_basebackup и репликации
+    - host  replication    {{ replica_user_name }}     {{ local_network }}     md5
+    - local   replication     all                                              peer
+    - host    replication     all             127.0.0.1/32                     md5
+    - host    replication     all             ::1/128                          md5
 
 postgresql:
   listen: '0.0.0.0:{{ pg_port }}'
