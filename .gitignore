@@ -17,3 +17,6 @@ XDG_CACHE_HOME
 __pycache__/
 *.py[cod]
 *$py.class
+
+# Other
+.DS_Store
