@@ -1,5 +1,4 @@
 ---
-# tasks file for app
 - name: Show info about the env this host belongs to
   debug:
     msg: "This host is in {{ env }} environment!!!"
@@ -8,27 +7,44 @@
 
 - include: pg_install.yml
 
+- name: Get information from Patroni
+  uri:
+    url: 'http://localhost:{{ patroni_port }}/patroni'
+    method: GET
+    status_code: "200"
+  register: patroni_status
+  ignore_errors: yes
+
+- name: Print patroni information
+  debug:
+    var: patroni_status
+  when: patroni_status.json.role is defined
+
 - include: pg_config.yml
+  when: patroni_status.json.role is not defined
 
 - include: pg_databases.yml
-  when: role == "master"
 
 - name: Check recovery.conf file exists
   stat:
     path: /var/lib/postgresql/{{ pg_version }}/main/recovery.conf
   register: recovery_conf
+  when: patroni_status.json.role is not defined
 
 - name: File recovery.conf exists?
   debug:
     var: recovery_conf.stat.exists
+  when: patroni_status.json.role is not defined
 
 - include: pg_slave_replication.yml
   when:
     - role == "slave"
+    - recovery_conf.stat.exists is defined
     - not recovery_conf.stat.exists
+    - patroni_status.json.role is not defined
 
 - include: pg_enable_extensions.yml
-  when: role == "master"
+  when: patroni_status.json.role is not defined
 
 - include: pgbouncer_install.yml
 

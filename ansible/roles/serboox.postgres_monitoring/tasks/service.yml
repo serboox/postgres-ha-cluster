@@ -43,6 +43,9 @@
 - name: Run service containers
   docker_compose:
     project_src: ~/compose/service
+    build: yes
+    restarted: true
+    nocache: yes
   register: output
 
 - name: Show all prometheus properties

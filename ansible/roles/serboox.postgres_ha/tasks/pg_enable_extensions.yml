@@ -7,4 +7,5 @@
     db: "{{ item.value.database }}"
     cascade: true
   with_dict: "{{ credentials.users }}"
-  tags: pg-extensions
+  when: (patroni_status.json.role is defined and patroni_status.json.role == "master") or
+      (patroni_status.json.role is not defined and role == "master")

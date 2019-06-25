@@ -5,7 +5,8 @@
   postgresql_db:
     name: "{{ item.value.database }}"
   with_dict: "{{ credentials.users }}"
-  tags: pg-databases
+  when: (patroni_status.json.role is defined and patroni_status.json.role == "master") or
+      (patroni_status.json.role is not defined and role == "master")
 
 - name: Set postgres password with no expire date
   become: true
@@ -14,6 +15,8 @@
     name: "{{ pg_user }}"
     password: "{{ credentials.admins[pg_user].password }}"
     expires: infinity
+  when: (patroni_status.json.role is defined and patroni_status.json.role == "master") or
+      (patroni_status.json.role is not defined and role == "master")
 
 - name: Create replication user
   become: true
@@ -22,6 +25,8 @@
     name: "{{ replica_user_name }}"
     password: "{{ credentials.admins[replica_user_name].password }}"
     role_attr_flags: REPLICATION
+  when: (patroni_status.json.role is defined and patroni_status.json.role == "master") or
+      (patroni_status.json.role is not defined and role == "master")
 
 - name: Connect database, create users
   become: true
@@ -32,13 +37,15 @@
     expires: infinity
     role_attr_flags: CREATEDB,NOSUPERUSER,NOREPLICATION
   with_dict: "{{ credentials.users }}"
-  tags: pg-databases
+  when: (patroni_status.json.role is defined and patroni_status.json.role == "master") or
+      (patroni_status.json.role is not defined and role == "master")
 
 - name: Restart PostgreSQL
   service:
     name: postgresql
     state: restarted
-  tags:  pg-databases
+  when: (patroni_status.json.role is defined and patroni_status.json.role == "master") or
+      (patroni_status.json.role is not defined and role == "master")
 
 # https://docs.ansible.com/ansible/latest/modules/postgresql_privs_module.html?highlight=postgres
 #- name: Grant all privileges
@@ -51,4 +58,5 @@
 #    role: "{{ item.key }}"
 #  #when: item.key != pg_user
 #  with_dict: "{{ credentials.users }}"
-#  tags: pg-databases
+#    when: (patroni_status.json.role is defined and patroni_status.json.role == "master") or
+#      (patroni_status.json.role is not defined and role == "master")

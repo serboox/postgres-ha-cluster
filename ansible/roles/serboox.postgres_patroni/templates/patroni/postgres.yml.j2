@@ -17,7 +17,8 @@ bootstrap:
     loop_wait: 10
     retry_timeout: 10
     maximum_lag_on_failover: 1048576 # 1 megabyte in bytes
-    synchronous_mode: true
+    #master_start_timeout: 300
+    #synchronous_mode: true
     postgresql:
       use_pg_rewind: true
       use_slots: true
@@ -27,7 +28,7 @@ bootstrap:
         max_wal_senders: {{ pg_max_wal_senders }}
         wal_keep_segments: 32
         max_replication_slots: 32
-        #wal_log_hints: "on" # это нужно, чтобы работал pg_rewind
+        wal_log_hints: "off" # это нужно, чтобы работал pg_rewind
         #archive_mode: "on"
         #archive_timeout: 1800s
         #archive_command: mkdir -p ../wal_archive && test ! -f ../wal_archive/%f && cp %p ../wal_archive/%f
@@ -90,7 +91,7 @@ postgresql:
     # Fully qualified kerberos ticket file for the running user
     # same as KRB5CCNAME used by the GSS
     unix_socket_directories: '{{ pg_unix_socket_directories }}'
-  # restore: /opt/patroni/patroni/scripts/restore.py
+  restore: /opt/patroni/patroni/scripts/wale_restore.py
 
 {% if role == 'master' %}
 tags:
