@@ -8,10 +8,10 @@ retries 2
 timeout client 30m
 timeout connect 4s
 timeout server 30m
-timeout check 5s
+timeout check 3s
 
 frontend ft_postgresql
-bind *:5000
+bind {{  haproxy_addr }}:{{ haproxy_port }}
 default_backend postgres-patroni
 
 backend postgres-patroni
@@ -19,7 +19,6 @@ backend postgres-patroni
 
   http-check expect status 200
   default-server inter 3s fall 3 rise 2
-
-  server {{ patroni_node_name }} {{ patroni_node_name }}.local:5432 maxconn 300 check port 8008
-  server {{ patroni_node_name }} {{ patroni_node_name }}.local:5432 maxconn 300 check port 8008
-  server {{ patroni_node_name }} {{ patroni_node_name }}.local:5432 maxconn 300 check port 8008
+{% for host in hostvars %}{% if hostvars[host]['role'] is defined and hostvars[host]['role'] != 'service' %}
+  server {{ hostvars[host]['ansible_default_ipv4']['address'] }} {{ hostvars[host]['ansible_default_ipv4']['address'] }}:{{ pgbouncer_listen_port }} maxconn {{ pgbouncer_max_client_conn }} check port {{ patroni_port }}
+{% endif %}{% endfor %}

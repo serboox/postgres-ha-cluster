@@ -1,6 +1,6 @@
 ---
 - name: Install Patroni
-  hosts: postgres-cluster
+  hosts: all
   become: true
   gather_facts: True
   vars_files:

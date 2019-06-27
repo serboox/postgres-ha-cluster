@@ -1,4 +1,8 @@
 ---
 - include: patroni.yml
-#- include: haproxy.yml
+  when: (role == 'master') or (role == 'slave')
+
+- include: haproxy.yml
+  when: role == 'service'
+
 #- include: keepalived.yml

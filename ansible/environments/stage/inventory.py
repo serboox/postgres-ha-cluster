@@ -47,6 +47,13 @@ class ExampleInventory(object):
                     "pg_version": 10,
                     "local_network": "192.168.0.0/24",
 
+                    "pgbouncer_listen_addr": "*",
+                    "pgbouncer_listen_port": 6432,
+                    "pgbouncer_max_client_conn": 10000,
+                    "pgbouncer_default_pool_size": 30,
+                    # Отвечает за количество одновременно подключенных слейвов у мастера.
+                    "pg_max_wal_senders": 99,
+
                     "consul_version": "1.5.1",
                     "consul_user": "consul",
                     "consul_group": "consul",
@@ -54,8 +61,16 @@ class ExampleInventory(object):
                     "consul_dns_port": 8600,
                     "consul_server_nodes": [],  # dynamic
 
+                    "patroni_version": "v1.5.6",
+                    "patroni_host": "0.0.0.0",
+                    "patroni_port": 8008,
+                    "patroni_username": "patroni",
+                    "patroni_scope": "pg_cluster",
+
+                    "haproxy_addr": "*",
+                    "haproxy_port": 5000,
                     "haproxy_maxconn": 1000,
-                    "cluster_virtual_ip": "192.168.1.0",
+                    "cluster_virtual_ip": "192.168.1.0"
                 }
             },
             "srv": {
@@ -99,22 +114,9 @@ class ExampleInventory(object):
                     "pg_shared_buffers": "128MB",
                     "pg_unix_socket_directories": '/var/run/postgresql',
 
-                    "pgbouncer_listen_addr": "*",
-                    "pgbouncer_listen_port": 6432,
-                    "pgbouncer_max_client_conn": 10000,
-                    "pgbouncer_default_pool_size": 30,
-                    # Отвечает за количество одновременно подключенных слейвов у мастера.
-                    "pg_max_wal_senders": 99,
-
                     "consul_agent": False,
                     "consul_server": True,
-                    "consul_ui": False,
-
-                    "patroni_version": "v1.5.6",
-                    "patroni_host": "0.0.0.0",
-                    "patroni_port": 8008,
-                    "patroni_username": "patroni",
-                    "patroni_scope": "pg_cluster"
+                    "consul_ui": False
                 }
             },
             "ungrouped": {
