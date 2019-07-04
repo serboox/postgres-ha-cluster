@@ -1,11 +1,11 @@
 ---
-#- import_playbook: ./playbooks/init.yml
-#- import_playbook: ./playbooks/app.yml
-#- import_playbook: ./playbooks/hosts.yml
-#- import_playbook: ./playbooks/users.yml
-#- import_playbook: ./playbooks/pg_cluster.yml
-#- import_playbook: ./playbooks/psql.yml
-#- import_playbook: ./playbooks/consul.yml
+- import_playbook: ./playbooks/init.yml
+- import_playbook: ./playbooks/app.yml
+- import_playbook: ./playbooks/hosts.yml
+- import_playbook: ./playbooks/users.yml
+- import_playbook: ./playbooks/pg_cluster.yml
+- import_playbook: ./playbooks/psql.yml
+- import_playbook: ./playbooks/consul.yml
 - import_playbook: ./playbooks/patroni.yml
-#- import_playbook: ./playbooks/docker.yml
-#- import_playbook: ./playbooks/pg_monitoring.yml
+- import_playbook: ./playbooks/docker.yml
+- import_playbook: ./playbooks/pg_monitoring.yml
