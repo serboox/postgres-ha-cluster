@@ -83,16 +83,20 @@ make tf-apply
 ``` yaml
 ---
 credentials:
+  admins:
+    postgres: - Имя пользователя PostgresSQL (нельзя менять)
+      password: "<YouPass>" - Пароль для пользователя postgres (можно менять)
+    replicator: - Имя пользователя под которым будет происходить репликация (нельзя менять)
+      password: "<YouPass>" - Пароль для пользователя replicator (можно менять)
   users:
-    postgres: - имя пользователя Linux и базы данных
-      password: "<YouPass>"
-    foo: - имя пользователя Linux и базы данных
-      password: "<YouPass>"
-      groups: sudo
-    bar: - имя пользователя Linux и базы данных
-      password: "<YouPass>"
+    bar: - имя пользователя Linux (можно менять)
+      password: "<YouPass>" (можно менять)
+      groups: sudo - может ли пользователь зайти под sudo (можно не указывать)
+      database: "<YouDBName>" - Имя базы данных для пользователя (можно менять)
+  patroni:
+    patroni_rest_password: "<YouPass>" - Пароль для доступа к REST API Patroni (можно менять)
 ```
-На основании этих данных Ansible на каждом инстансе создаст Linux и Postgres пользователей имеющих по одной таблице на которую они имеют 'GRANT ALL' привилегии. Имя пользователя соответствует имени базы данных.
+На основании этих данных Ansible на каждом инстансе создаст Linux и Postgres пользователей имеющих по одной базе c 'GRANT ALL' привилегиями.
 
 Прежде чем приступить к запуску Ansible нужно создать файл **vault.key** в директории **./ansible**, его содержимое может быть абсолютно произвольным, например:
 ``` text
