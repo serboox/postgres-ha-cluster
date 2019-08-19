@@ -4,6 +4,7 @@ os-credentials.sh
 # IDE
 .vscode*
 XDG_CACHE_HOME
+.idea/
 
 # Terraform ignore
 *.tfstate
