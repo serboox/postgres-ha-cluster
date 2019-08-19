@@ -3,6 +3,7 @@ os-credentials.sh
 
 # IDE
 .vscode*
+.idea*
 XDG_CACHE_HOME
 .idea/
 
