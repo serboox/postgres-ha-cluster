@@ -180,6 +180,7 @@ class ExampleInventory(object):
         Generate custom Ansible inventory
         '''
         projects_list = self._find_projects_list()
+        # print('projects list: %s' % projects_list)
         for project in projects_list['projects']:
             if project['name'] == self._os_project_name:
                 self._current_project = project
@@ -189,12 +190,19 @@ class ExampleInventory(object):
             if floatingip['project_id'] == self._current_project['id']:
                 self._current_floatingip = floatingip
                 break
+        # print('floatingip list: %s' % floatingip_list)
+        # print('current_floatingip: %s' % self._current_floatingip)
 
         self._get_identity_session()
+        # print('token: %s' % self.session.get_token())
         self._init_nova_client()
         self._init_neutron_client()
 
+        networks_list = self.neutron.list_networks(name="network_1")
+        # print('networks_list: %s' % networks_list)
+
         servers_list = self.nova.servers.list()
+        # print('servers_list: %s' % servers_list)
         for server in servers_list:
             # print(server.__dict__.keys())
             # print('{id: %s, name: %s, addresses: %s}' % (
@@ -259,10 +267,16 @@ class ExampleInventory(object):
 
     def _init_nova_client(self):
         self.nova = nova_client.Client(
-            self._nova_client_version, session=self.session)
+            session=self.session,
+            version=self._nova_client_version,
+            region_name=self._os_region,
+        )
 
     def _init_neutron_client(self):
-        self.neutron = neutron_client.Client(session=self.session)
+        self.neutron = neutron_client.Client(
+            session=self.session,
+            region_name=self._os_region,
+        )
 
 
 ExampleInventory()
