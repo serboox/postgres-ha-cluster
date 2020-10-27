@@ -20,7 +20,7 @@ cliff==2.14.1
 cmd2==0.9.12
 colorama==0.3.9
 cookiecutter==1.6.0
-cryptography==2.7
+cryptography==3.2
 debtcollector==1.21.0
 decorator==4.4.0
 dogpile.cache==0.7.1
