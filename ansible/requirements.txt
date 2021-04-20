@@ -75,7 +75,7 @@ poyo==0.4.2
 prettytable==0.7.2
 psutil==5.4.6
 ptyprocess==0.6.0
-py==1.8.0
+py==1.10.0
 pycodestyle==2.5.0
 pycparser==2.19
 pydot==1.4.1
