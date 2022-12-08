@@ -11,7 +11,7 @@ autopep8==1.4.4
 Babel==2.7.0
 binaryornot==0.4.4
 Cerberus==1.2
-certifi==2019.3.9
+certifi==2022.12.7
 cffi==1.12.3
 chardet==3.0.4
 click==6.7
